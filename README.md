@@ -1,0 +1,1 @@
+Dauna is a discord bot written in discord.js for the GTFO Modding community.
