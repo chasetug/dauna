@@ -17,10 +17,10 @@ module.exports = {
 					connection.disconnect();
 				});
 
-				dispatcher.on('error', console.error);
+				dispatcher.on('error', console.error());
 			})
 			.catch(err => {
-				console.err(err);
+				console.error(err);
 				message.channel.send('Channel cannot be joined.');
 			});
 	},
