@@ -12,8 +12,8 @@ module.exports = {
 				const dispatcher = connection.play(require('path').join(__dirname, './audio.mp3'));
 				const updateMessage = await message.channel.send('Audio is now playing!');
 
-				dispatcher.on('finish', () => {
-					updateMessage.edit('Audio has finished playing!');
+				dispatcher.on('finish', async () => {
+					await updateMessage.edit('Audio has finished playing!');
 					connection.disconnect();
 				});
 

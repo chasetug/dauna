@@ -1,6 +1,9 @@
 // Library dependencies
 const fs = require('fs');
 const Discord = require('discord.js');
+const express = require('express');
+const https = require('https');
+const path = require('path');
 require('dotenv').config();
 
 
@@ -9,6 +12,40 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const guildID = '782438773690597389';
 const prefix = '!';
+
+// Establish Express
+const app = express();
+const port = 443;
+
+app.use(express.json());
+
+app.post('/api/v1/lfg', (req, res) => {
+	res.send('Sending message!');
+	const channel = client.channels.cache.get('799196767961743410');
+	const { player, lobbyID, rundownName, levelName, playersNeeded } = req.body;
+
+	const embed = new Discord.MessageEmbed()
+		.setColor('#4287f5')
+		.setTitle(`Looking for ${playersNeeded}`)
+		.setAuthor(player)
+		.addFields(
+			{ name: 'Rundown', value: rundownName, inline: true },
+			{ name: 'Level', value: levelName, inline: true },
+			{ name: 'LobbyID', value: lobbyID, inline: true },
+		)
+		.setTimestamp();
+	channel.send(`<@&786076869203722250> steam://joinlobby/493520/${lobbyID}/`, embed);
+	console.log(req.body);
+});
+
+const sslServer = https.createServer({
+	key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+	cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')),
+}, app);
+
+sslServer.listen(port, () => {
+	console.log(`Listening at http://localhost:${port}`);
+});
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
