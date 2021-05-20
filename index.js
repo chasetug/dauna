@@ -21,20 +21,19 @@ app.use(express.json());
 
 app.post('/api/v1/lfg', (req, res) => {
 	res.send('Sending message!');
-	const channel = client.channels.cache.get('799196767961743410');
+	const channel = client.channels.cache.get('782753180097839158');
 	const { player, lobbyID, rundownName, levelName, playersNeeded } = req.body;
 
 	const embed = new Discord.MessageEmbed()
 		.setColor('#4287f5')
-		.setTitle(`Looking for ${playersNeeded}`)
-		.setAuthor(player)
+		.setTitle(`${player} is looking for ${playersNeeded} players:`)
 		.addFields(
 			{ name: 'Rundown', value: rundownName, inline: true },
 			{ name: 'Level', value: levelName, inline: true },
 			{ name: 'LobbyID', value: lobbyID, inline: true },
 		)
 		.setTimestamp();
-	channel.send(`<@&786076869203722250> steam://joinlobby/493520/${lobbyID}/`, embed);
+	channel.send(`steam://joinlobby/493520/${lobbyID}/`, embed);
 	console.log(req.body);
 });
 
