@@ -22,19 +22,26 @@ app.use(express.json());
 app.post('/api/v1/lfg', (req, res) => {
 	res.send('Sending message!');
 	const channel = client.channels.cache.get('782753180097839158');
-	const { player, lobbyID, rundownName, levelName, playersNeeded } = req.body;
+	const { player, lobbyID, rundownName, levelName, playerCount } = req.body;
 
 	const embed = new Discord.MessageEmbed()
 		.setColor('#4287f5')
-		.setTitle(`${player} is looking for ${playersNeeded} players:`)
+		.setTitle(`Join ${player}'s Game`)
+		.setURL(`https://gtfomodding.dev/api/v1/lobby?id=${lobbyID}`)
+		.setDescription(`👥 ${playerCount}/4 players`)
 		.addFields(
 			{ name: 'Rundown', value: rundownName, inline: true },
 			{ name: 'Level', value: levelName, inline: true },
-			{ name: 'LobbyID', value: lobbyID, inline: true },
+			{ name: 'Lobby ID', value: lobbyID, inline: true },
 		)
 		.setTimestamp();
-	channel.send(`steam://joinlobby/493520/${lobbyID}/`, embed);
+	channel.send(embed);
 	console.log(req.body);
+});
+
+app.get('/api/v1/lobby', (req, res) => {
+	const { id } = req.query;
+	res.status(301).redirect(`steam://joinlobby/493520/${id}/`);
 });
 
 const sslServer = https.createServer({
