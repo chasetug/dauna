@@ -2,7 +2,7 @@ module.exports = {
 	name: 'speak',
 	description: 'Speaks in the given channel',
 	async execute(client, message, args) {
-		if (!message.member.roles.cache.find(r => r.name === 'Admins')) return message.channel.send('You must be an admin to use this command!');
+		if (!message.member.roles.cache.find(r => r.id == '813847117105070131')) return message.channel.send('You must be an admin to use this command!');
 		if(!client.channels.cache.get(args[0]) && !message.member.voice.channel) return message.channel.send('Please specify a channel!');
 
 		const channel = client.channels.cache.get(args[0]) || message.member.voice.channel;
@@ -17,7 +17,9 @@ module.exports = {
 					connection.disconnect();
 				});
 
-				dispatcher.on('error', console.error());
+				dispatcher.on('error', err => {
+                                        console.error(err);
+                                });
 			})
 			.catch(err => {
 				console.error(err);

@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const express = require('express');
 const https = require('https');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 
@@ -17,9 +18,21 @@ const prefix = '!';
 const app = express();
 const port = 443;
 
-app.use(express.json());
+const apiLimiter = rateLimit({
+	windowMs: 1 * 60 * 1000,
+	max: 5,
+});
 
-app.post('/api/v1/lfg', (req, res) => {
+const lfgLimiter = rateLimit({
+	windowMs: 5 * 60 * 1000,
+	max: 1,
+	message: 'Too many messages sent, try again in 5 minutes.',
+});
+
+app.use(express.json());
+app.use('/api/', apiLimiter);
+
+app.post('/api/v1/lfg', lfgLimiter, (req, res) => {
 	res.send('Sending message!');
 	const channel = client.channels.cache.get('782753180097839158');
 	const { player, lobbyID, rundownName, levelName, playerCount } = req.body;
@@ -45,7 +58,7 @@ app.get('/api/v1/lobby', (req, res) => {
 });
 
 const sslServer = https.createServer({
-	key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+	key: fs.readFileSync(path.join(__dirname, 'cert', 'privkey.pem')),
 	cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')),
 }, app);
 
