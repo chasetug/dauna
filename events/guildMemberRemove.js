@@ -1,13 +1,13 @@
-const { Discord } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'guildMemberAdd',
+	name: 'guildMemberRemove',
 	execute(member, client) {
 		const welcomeChannel = client.channels.cache.get('782470041382944818');
 		welcomeChannel.send(`**${member.user.username}** has left the server.`);
 
 		// Member leave bot logs
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setColor('#FF0000')
 			.setAuthor(`${member.user.username} (${member.id})`, member.user.avatarURL() == null ? 'https://images-ext-2.discordapp.net/external/6tVaUxectogf8lZc5X8fWTGd2tbzlG6I5AtVbWYYLNI/https/cdn.discordapp.com/embed/avatars/4.png' : member.user.avatarURL())
 			.setThumbnail(member.user.avatarURL() == null ? 'https://images-ext-2.discordapp.net/external/6tVaUxectogf8lZc5X8fWTGd2tbzlG6I5AtVbWYYLNI/https/cdn.discordapp.com/embed/avatars/4.png' : member.user.avatarURL())

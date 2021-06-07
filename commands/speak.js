@@ -10,7 +10,7 @@ module.exports = {
 		channel.join()
 			.then(async connection => {
 				const sound = args[1] || 'big';
-				const dispatcher = connection.play(`C:/dev/dauna/sounds/${sound}.mp3`);
+				const dispatcher = connection.play(`./sounds/${sound}.mp3`);
 				const updateMessage = await message.channel.send('Audio is now playing!');
 
 				dispatcher.on('finish', async () => {
