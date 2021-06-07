@@ -50,7 +50,7 @@ module.exports = {
 				.setLabel('Join Lobby')
 				.setURL(`https://gtfomodding.dev/api/lobby?id=${lobbyID}`)
 				.setID('lfg');
-			if (!rundownName.startsWith('Rundown')) {
+			if (!rundownName.startsWith('Rundown 00')) {
 				const modButton = new MessageButton()
 					.setStyle('url')
 					.setLabel('View Rundown')
@@ -60,7 +60,7 @@ module.exports = {
 				if (channel instanceof Discord.TextChannel) {
 					channel.send('', {
 						buttons: [
-							modButton, lobbyButton,
+							lobbyButton, modButton,
 						],
 						embed: embed,
 					}).catch(console.error);
