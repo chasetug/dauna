@@ -1,10 +1,12 @@
 node_modules
-events
 .env
 .eslintrc.json
 settings.json
 package-lock.json
 package.json
 run.bat
-audio.mp3
+sounds
+api/cert
+.vscode
+.idea
 cert

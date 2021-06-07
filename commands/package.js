@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Queries a package from the thunderstore.',
 	async execute(client, message, args) {
 		// Package list command
-		if(args[0].toLowerCase() == 'list' && args[1] == undefined) {
+		if(args[0].toLowerCase() === 'list' && args[1] === undefined) {
 			const msg = await message.channel.send('Retrieving a list of mods from Thunderstore...');
 			// Query thunderstore api for list of packages
 			axios.get('https://gtfo.thunderstore.io/api/v1/package/')
@@ -53,7 +53,7 @@ module.exports = {
 							{ name: 'Rating', value: res.data.rating_score, inline: true },
 							{ name: 'Downloads', value: res.data.total_downloads, inline: true },
 						)
-						.addField('Categories', res.data.community_listings[0].categories[0] == undefined ? 'None' : res.data.community_listings[0].categories)
+						.addField('Categories', res.data.community_listings[0].categories[0] === undefined ? 'None' : res.data.community_listings[0].categories)
 						.setFooter(`Last Updated: ${res.data.date_updated.substr(0, 10)} (v${res.data.latest.version_number})`);
 					message.channel.send(modEmbed);
 				})
