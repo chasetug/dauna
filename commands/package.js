@@ -37,28 +37,34 @@ module.exports = {
 			// Querying a specific package
 			const msg = await message.channel.send('Retrieving package from Thunderstore...');
 			// Get package from experimental api
-			axios.get(`https://gtfo.thunderstore.io/api/experimental/package/${args[0]}/${args[1]}`)
+			axios.get('https://gtfo.thunderstore.io/api/v1/package/')
 				.then(res => {
-					msg.delete();
 					// message.channel.send(res.data.package_url);
 					// Create pretty embed
+					const packages = res.data;
+					const package = packages.find(p => p.name.toLowerCase() === args[0].toLowerCase());
+					if (!package) return msg.edit('Cannot find package. Please check package name.');
+					const totalDownloads = package.versions.reduce((sum, { downloads }) => sum + downloads, 0);
+					const latestVersion = package.versions[0];
+
 					const modEmbed = new Discord.MessageEmbed()
 						.setColor('#000080')
-						.setTitle(res.data.name)
-						.setDescription(res.data.latest.description)
-						.setURL(res.data.package_url)
-						.setThumbnail(res.data.latest.icon)
+						.setTitle(`${package.name} v${latestVersion.version_number}`)
+						.setDescription(latestVersion.description)
+						.setURL(package.package_url)
+						.setThumbnail(latestVersion.icon)
 						.addFields(
-							{ name: 'Owner', value: res.data.owner, inline: true },
-							{ name: 'Rating', value: res.data.rating_score, inline: true },
-							{ name: 'Downloads', value: res.data.total_downloads, inline: true },
+							{ name: 'Owner', value: package.owner, inline: true },
+							{ name: 'Rating', value: package.rating_score, inline: true },
+							{ name: 'Downloads', value: totalDownloads, inline: true },
 						)
-						.addField('Categories', res.data.community_listings[0].categories[0] === undefined ? 'None' : res.data.community_listings[0].categories)
-						.setFooter(`Last Updated: ${res.data.date_updated.substr(0, 10)} (v${res.data.latest.version_number})`);
+						.addField('Categories', package.categories[0] === undefined ? 'None' : package.categories.join(', '))
+						.setFooter(`Last Updated: ${package.date_updated.substr(0, 10)}`);
+					msg.delete();
 					message.channel.send(modEmbed);
 				})
 				.catch (err => {
-					msg.edit('Cannot find package. Please check author and package name.');
+					msg.edit('Cannot find package. Please check package name.');
 					console.error(err);
 				});
 		}

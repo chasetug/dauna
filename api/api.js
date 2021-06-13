@@ -22,9 +22,28 @@ module.exports = {
 			message: 'Too many messages sent, try again in 5 minutes.',
 		});
 
-		app.use(express.json());
+		app.use(express.json({ limit: '50mb' }));
 		app.use('/api/', apiLimiter);
 
+		/*
+		app.post('/api/test', (req, res) => {
+			const base64 = req.body.image;
+			const buffer = Buffer.from(base64, 'base64');
+			fs.writeFileSync('clear.jpg', buffer);
+			res.status(200).send('Saved!');
+			postClear();
+		});
+		 */
+
+		function postClear() {
+			const channel = client.channels.cache.get('784264499179683850');
+			channel.send({
+				files: [{
+					attachment: 'C:\\dev\\dauna\\clear.jpg',
+					name: 'clear.jpg',
+				}],
+			});
+		}
 		app.post('/api/lfg', lfgLimiter, (req, res) => {
 			res.send('Received Message');
 			const channel = client.channels.cache.get('782449248317997057');
@@ -84,7 +103,7 @@ module.exports = {
 		}, app);
 
 		sslServer.listen(port, () => {
-			console.log(`Listening at http://localhost:${port}`);
+			console.log(`Listening at https://gtfomodding.dev/api:${port}`);
 		});
 	},
 };
