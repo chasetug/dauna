@@ -10,7 +10,7 @@ require('dotenv').config();
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const disbut = require('discord-buttons')(client);
+require('discord-buttons')(client);
 
 // Get commands and events
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

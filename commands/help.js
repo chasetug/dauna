@@ -5,6 +5,5 @@ module.exports = {
 		// const msg = await message.channel.send('Ping?');
 		const command = client.commands.get(args[0]);
 		message.channel.send(`Command: ${command.name}\nDescription: ${command.description}`);
-
 	},
 };
