@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'purge',
 	description: 'Bulk deletes messages from a channel.',
-	requiredRoles: '782438962248548352', // Moderator (Corrections Officer) Role
+	requiredRoles: '782438962248548352', // Moderator Role
 	async execute(client, message, args) {
 		const purgeCount = parseInt(args[0]);
 		if(isNaN(purgeCount)) return message.channel.send('Please specify a number of messages to purge (purge <#messages>)');
