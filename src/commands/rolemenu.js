@@ -3,9 +3,8 @@ const { MessageButton } = require('discord-buttons');
 module.exports = {
 	name: 'rolemenu',
 	description: 'Test',
+	requiredRoles: '813847117105070131', // Admins Role
 	execute(client, message) {
-		if (!message.member.roles.cache.find(r => r.id == '813847117105070131')) return message.channel.send('You must be an admin to use this command!');
-
 		const button1 = new MessageButton()
 			.setLabel('News')
 			.setStyle('blurple')

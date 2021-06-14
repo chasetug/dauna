@@ -1,8 +1,8 @@
 module.exports = {
 	name: 'speak',
 	description: 'Speaks in the given channel',
+	requiredRoles: '813847117105070131', // Admin role
 	execute(client, message, args) {
-		if (!message.member.roles.cache.find(r => r.id == '813847117105070131')) return message.channel.send('You must be an admin to use this command!');
 		if (!client.channels.cache.get(args[0]) && !message.member.voice.channel) return message.channel.send('Please specify a channel!');
 
 		const channel = client.channels.cache.get(args[0]) || message.member.voice.channel;

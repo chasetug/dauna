@@ -1,3 +1,5 @@
+const { statusGame } = require('../config.json');
+
 module.exports = {
 	name: 'ready',
 	once: true,
@@ -9,7 +11,7 @@ module.exports = {
 		await guild.members.fetch();
 		console.log('Fetched member cache!');
 
-		client.user.setActivity('GTFO', { type: 'PLAYING' })
+		client.user.setActivity(statusGame, { type: 'PLAYING' })
 			.then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
 			.catch(console.error);
 	},

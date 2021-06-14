@@ -1,9 +1,8 @@
 module.exports = {
 	name: 'say',
 	description: 'Copies a message to the specified channel.',
+	requiredRoles: '782438962248548352', // Moderator role
 	async execute(client, message, args) {
-		if(!message.member.roles.cache.find(r => r.id === '813847117105070131')) return message.channel.send('You must be an admin to use this command!');
-
 		let targetChannel = message.mentions.channels.first();
 		targetChannel ??= message.channel;
 
@@ -25,7 +24,6 @@ module.exports = {
 
 			targetChannel.send(collectedMessage, collectedAttachment);
 			message.channel.send('Your message has been sent.');
-			console.log(collectedMessage);
 		});
 	},
 };
