@@ -33,7 +33,6 @@ module.exports = {
 			res.status(200).send('Saved!');
 			postClear();
 		});
-		 */
 
 		function postClear() {
 			const channel = client.channels.cache.get('784264499179683850');
@@ -44,6 +43,7 @@ module.exports = {
 				}],
 			});
 		}
+		 */
 
 		app.post('/api/lfg', lfgLimiter, (req, res) => {
 			res.send('Received Message');
@@ -99,8 +99,8 @@ module.exports = {
 		});
 
 		const sslServer = https.createServer({
-			key: fs.readFileSync(path.join(__dirname, 'cert', 'privkey.pem')),
-			cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem')),
+			key: fs.readFileSync(path.join('./cert/privkey.pem')),
+			cert: fs.readFileSync('./cert/cert.pem'),
 		}, app);
 
 		sslServer.listen(port, () => {

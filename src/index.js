@@ -13,8 +13,8 @@ client.commands = new Discord.Collection();
 require('discord-buttons')(client);
 
 // Get commands and events
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('js'));
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('js'));
 
 // Assign commands to client
 for (const file of commandFiles) {

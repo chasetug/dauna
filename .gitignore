@@ -6,7 +6,6 @@ package-lock.json
 package.json
 run.bat
 sounds
-api/cert
 .vscode
 .idea
 cert
