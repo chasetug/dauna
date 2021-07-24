@@ -4,7 +4,7 @@ module.exports = {
 	name: 'guildMemberAdd',
 	execute(member, client) {
 		const welcomeChannel = client.channels.cache.get('782470041382944818');
-		welcomeChannel.send(`**${member.user.username}** has joined the server!`);
+		welcomeChannel.send(`<:hmmNice:852393444839522325> **${member.user.username}** has joined the server!`);
 
 		member.user.send('Welcome to **Unofficial GTFO Modding**! \n\nPlease make sure to accept our rules to gain access to the server. \n*Cheating in public matches will get you removed from this server permanently!*')
 			.catch(e => {
