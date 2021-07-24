@@ -28,6 +28,7 @@ module.exports = {
 			}
 		}
 		else if (button.id === 'endskill') {
+			if (memberRoles.cache.find(r => r.id == '838110953375531009')) return;
 			if (!memberRoles.cache.find(r => r.id == '833714075199602689')) {
 				memberRoles.add('833714075199602689');
 				await button.reply.send('Gave you the role <@&833714075199602689>!', true);
