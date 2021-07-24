@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 
 function createLabelString(labels) {
 	if (!labels[0]) return 'None';
-	let labelString = labels.join('` `');
+	let labelString = labels.join('`, `');
 	labelString = `\`${labelString}\``;
 	return labelString;
 }
@@ -36,21 +36,23 @@ module.exports = {
 				const latestVersion = package.versions[0];
 				const totalDownloads = package.versions.reduce((sum, { downloads }) => sum + downloads, 0);
 				const lastUpdated = package.date_updated.substr(0, 10);
+				const uuid = package.uuid4;
 
 				const modEmbed = new Discord.MessageEmbed()
 					.setColor('#000080')
 					.setTitle(createTitle(package))
 					.setDescription(latestVersion.description)
+					.setAuthor(package.owner, '', `https://gtfo.thunderstore.io/package/${package.owner}/`)
 					.setURL(package.package_url)
 					.setThumbnail(latestVersion.icon)
 					.addFields(
-						{ name: 'Owner', value: package.owner, inline: true },
+						{ name: 'Last Updated', value: lastUpdated, inline:true },
 						{ name: 'Downloads', value: totalDownloads, inline: true },
 						{ name: 'Rating', value: getRating(package.rating_score), inline: true },
 					)
 					.addField('Categories', createLabelString(package.categories))
 					.addField('Dependencies', createLabelString(package.versions[0].dependencies))
-					.setFooter(`Last Updated: ${lastUpdated}`);
+					.setFooter(`${uuid}`);
 				msg.delete();
 				message.channel.send(modEmbed).catch(console.error);
 			})
