@@ -78,7 +78,7 @@ module.exports = {
 					.setID('lfg');
 
 				if (channel instanceof Discord.TextChannel) {
-					channel.send('', {
+					channel.send('<@&786076869203722250>', {
 						buttons: [
 							lobbyButton, modButton,
 						],
@@ -87,7 +87,7 @@ module.exports = {
 				}
 			}
 			else {
-				channel.send('', { button: lobbyButton, embed: embed });
+				channel.send('<@&786076869203722250>', { button: lobbyButton, embed: embed });
 			}
 
 			console.log(req.body);
