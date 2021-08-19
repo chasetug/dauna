@@ -1,9 +1,9 @@
 module.exports = {
 	name: 'lfg',
 	description: 'Creates a link to join a lobby',
-	async execute(client, message, args) {
-		const rundown = args.slice(1).join(' ');
-		message.channel.send(`Join ${message.author} in ${rundown}: \nsteam://joinlobby/493520/${args[0]}/`);
-		message.delete();
+	async execute(interaction) {
+		const rundown = interaction.options.getString('rundown');
+		const lobbyId = interaction.options.getInteger('lobbyid');
+		interaction.reply(`Join ${interaction.member} in ${rundown}: \nsteam://joinlobby/493520/${lobbyId}/`);
 	},
 };

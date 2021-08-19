@@ -23,6 +23,6 @@ module.exports = {
 			.setFooter('Member joined');
 
 		const memberLogs = client.channels.cache.get('782753763441770586');
-		memberLogs.send(embed);
+		memberLogs.send({ embeds: [embed] });
 	},
 };

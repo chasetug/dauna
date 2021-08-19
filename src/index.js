@@ -1,16 +1,21 @@
 // Library dependencies
 const fs = require('fs');
-const Discord = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const express = require('express');
 const https = require('https');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
-
-require('discord-buttons')(client);
+const client = new Client({ intents: [
+	Intents.FLAGS.GUILDS,
+	Intents.FLAGS.GUILD_MEMBERS,
+	Intents.FLAGS.GUILD_VOICE_STATES,
+	Intents.FLAGS.GUILD_PRESENCES,
+	Intents.FLAGS.GUILD_MESSAGES,
+	Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+] });
+client.commands = new Collection();
 
 // Get commands and events
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));

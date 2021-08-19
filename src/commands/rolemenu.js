@@ -1,10 +1,11 @@
-const { MessageButton } = require('discord-buttons');
+// const { MessageButton } = require('discord-buttons');
 
 module.exports = {
 	name: 'rolemenu',
 	description: 'Test',
 	requiredRoles: '813847117105070131', // Admins Role
 	execute(client, message) {
+		/*
 		const button1 = new MessageButton()
 			.setLabel('News')
 			.setStyle('blurple')
@@ -23,5 +24,6 @@ module.exports = {
 				button1, button2, button3,
 			],
 		});
+		 */
 	},
 };

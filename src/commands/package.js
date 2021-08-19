@@ -1,37 +1,47 @@
 const { default: axios } = require('axios');
 const Discord = require('discord.js');
 
-function createLabelString(labels) {
-	if (!labels[0]) return 'None';
-	let labelString = labels.join('`, `');
-	labelString = `\`${labelString}\``;
-	return labelString;
-}
-
-function createTitle(package) {
-	let title = package.name;
-	title = `${package.name} v${package.versions[0].version_number}`;
-	if (package.is_pinned) return `📌 ${title}`;
-	if (package.is_deprecated) return `~~${title}~~`;
-	return title;
-}
-
-function getRating(rating) {
-	const emoji = rating > 0 ? '<:hmmNice:852393444839522325>' : '<:hmmm:820908652650954793>';
-	return `${rating} ${emoji}`;
-}
-
 module.exports = {
 	name: 'package',
 	description: 'Queries a package from the thunderstore.',
-	async execute(client, message, args) {
+	options: [
+		{
+			name: 'package',
+			type: 'STRING',
+			description: 'The package to query',
+			required: true,
+		},
+	],
+	async execute(interaction) {
 		// Querying a specific package
-		const msg = await message.channel.send('Retrieving package from Thunderstore...');
+		interaction.deferReply();
+
+		function createLabelString(labels) {
+			if (!labels[0]) return 'None';
+			let labelString = labels.join('`, `');
+			labelString = `\`${labelString}\``;
+			return labelString;
+		}
+
+		function createTitle(package) {
+			let title = package.name;
+			title = `${package.name} v${package.versions[0].version_number}`;
+			if (package.is_pinned) return `📌 ${title}`;
+			if (package.is_deprecated) return `~~${title}~~`;
+			return title;
+		}
+
+		function getRating(rating) {
+			const emoji = rating > 0 ? '<:hmmNice:852393444839522325>' : '<:hmmm:820908652650954793>';
+			return `${rating} ${emoji}`;
+		}
+
 		axios.get('https://gtfo.thunderstore.io/api/v1/package/')
 			.then(res => {
 				const packages = res.data;
-				const package = packages.find(p => p.name.toLowerCase() === args[0].toLowerCase());
-				if (!package) return msg.edit('Cannot find package. Please check package name.');
+				const mod = interaction.options.getString('package');
+				const package = packages.find(p => p.name.toLowerCase() === mod.toLowerCase());
+				if (!package) return interaction.editReply({ content: 'Cannot find package. Please check package name.' });
 
 				const latestVersion = package.versions[0];
 				const totalDownloads = package.versions.reduce((sum, { downloads }) => sum + downloads, 0);
@@ -47,17 +57,16 @@ module.exports = {
 					.setThumbnail(latestVersion.icon)
 					.addFields(
 						{ name: 'Last Updated', value: lastUpdated, inline:true },
-						{ name: 'Downloads', value: totalDownloads, inline: true },
+						{ name: 'Downloads', value: totalDownloads.toString(), inline: true },
 						{ name: 'Rating', value: getRating(package.rating_score), inline: true },
 					)
 					.addField('Categories', createLabelString(package.categories))
 					.addField('Dependencies', createLabelString(package.versions[0].dependencies))
 					.setFooter(`${uuid}`);
-				msg.delete();
-				message.channel.send(modEmbed).catch(console.error);
+				interaction.editReply({ embeds: [modEmbed] });
 			})
 			.catch(err => {
-				msg.edit('Cannot find package. Please check package name.');
+				interaction.editReply({ content: 'Cannot find package. Please check package name.' });
 				console.error(err);
 			});
 	},

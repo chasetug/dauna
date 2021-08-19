@@ -13,20 +13,20 @@ module.exports = {
 	name: 'eval',
 	description: 'Executes commands',
 	requiredRoles: '782439653776293898',
-	async execute(client, message, args) {
-		if(message.author.id !== ownerId) return;
+	async execute(interaction) {
+		if(interaction.user.id !== ownerId) return;
 
 		try {
-			const code = args.join(' ');
+			const code = interaction.options.getInteger('code');
 			let evaled = eval(code);
 
 			if(typeof evaled !== 'string') {
 				evaled = require('util').inspect(evaled);
 			}
-			message.channel.send(clean(evaled), { code:'xl' });
+			interaction.reply(clean(evaled), { code:'xl' });
 		}
 		catch (err) {
-			message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+			interaction.reply({ content: `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``, ephemeral: true });
 		}
 	},
 };

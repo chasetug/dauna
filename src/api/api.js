@@ -3,8 +3,9 @@ const express = require('express');
 const https = require('https');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const { MessageButton } = require('discord-buttons');
 const fs = require('fs');
+const { MessageActionRow, MessageButton } = require('discord.js');
+
 
 module.exports = {
 	execute(client) {
@@ -64,30 +65,20 @@ module.exports = {
 					{ name: 'Lobby ID', value: lobbyID, inline: true },
 				)
 				.setTimestamp();
-
-			const lobbyButton = new MessageButton()
-				.setStyle('url')
-				.setLabel('Join Lobby')
-				.setURL(`https://gtfomodding.dev/api/lobby?id=${lobbyID}`)
-				.setID('lfg');
-			if (!rundownName.startsWith('Rundown 00')) {
-				const modButton = new MessageButton()
-					.setStyle('url')
-					.setLabel('View Rundown')
-					.setURL('https://gtfo.thunderstore.io/')
-					.setID('lfg');
-
-				if (channel instanceof Discord.TextChannel) {
-					channel.send('<@&786076869203722250>', {
-						buttons: [
-							lobbyButton, modButton,
-						],
-						embed: embed,
-					}).catch(console.error);
-				}
-			}
-			else {
-				channel.send('<@&786076869203722250>', { button: lobbyButton, embed: embed });
+			const row = new MessageActionRow()
+				.addComponents(
+					new MessageButton()
+						.setStyle('LINK')
+						.setLabel('View Rundown')
+						.setURL('https://gtfo.thunderstore.io/'),
+					new MessageButton()
+						.setStyle('LINK')
+						.setLabel('Join Lobby')
+						.setURL(`https://gtfomodding.dev/api/lobby?id=${lobbyID}`),
+				);
+			if (channel instanceof Discord.TextChannel) {
+				channel.send({ content: '<@&786076869203722250>', components: [row],	embed: embed })
+					.catch(console.error);
 			}
 
 			console.log(req.body);

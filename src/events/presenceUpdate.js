@@ -1,7 +1,8 @@
 module.exports = {
 	name: 'presenceUpdate',
 	execute(oldPresence, newPresence, client) {
-		const { member, activities } = newPresence;
+		return;
+		/* const { member, activities } = newPresence;
 		const streamingActivity = activities.find(a => a.type === 'STREAMING');
 
 		if (!streamingActivity) return;
@@ -12,5 +13,6 @@ module.exports = {
 
 		const channel = client.channels.cache.get('787788643983949844');
 		// channel.send(`**${member.user.username}** is currently streaming GTFO!\nCheck out **${details}** here:\n${url}`);
+		 */
 	},
 };
