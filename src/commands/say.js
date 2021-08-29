@@ -2,28 +2,31 @@ module.exports = {
 	name: 'say',
 	description: 'Copies a message to the specified channel.',
 	requiredRoles: '782438962248548352', // Moderator role
-	async execute(client, message, args) {
-		let targetChannel = message.mentions.channels.first();
-		targetChannel ??= message.channel;
+	async execute(interaction) {
+		interaction.reply({ content: 'What would you like me to say?', ephemeral: true });
+		const targetChannel = interaction.options.getChannel('targetchannel');
 
-		message.channel.send('What would you like me to say?');
-
-		const filter = (newMessage) => {
-			return newMessage.author.id === message.author.id;
+		const filter = m => {
+			return m.author.id === interaction.member.id;
 		};
 
-		const collector = message.channel.createMessageCollector(filter, {
-			max: 1,
-			time: 1000 * 60,
-		});
+		const collector = interaction.channel.createMessageCollector({ filter, time: 15000, max: 1 });
 
-		collector.on('end', async (collected) => {
+		collector.on('end', collected => {
 			const collectedMessage = collected.first();
 			const collectedAttachment = collected.first()?.attachments.first();
-			if (!collectedMessage) return message.reply('You did not reply in time.');
+			if (!collectedMessage) return interaction.editReply({ content: 'You failed to reply in time.', ephemeral: true });
 
-			targetChannel.send(collectedMessage, collectedAttachment);
-			message.channel.send('Your message has been sent.');
+			collectedMessage.delete();
+
+			if (collectedAttachment) {
+				targetChannel.send({ content: `${collected.first()}`, attachments: [collectedAttachment] });
+				interaction.editReply({ content: 'Your message has been sent.', ephemeral: true });
+			}
+			else {
+				targetChannel.send({ content: `${collected.first()}` });
+				interaction.editReply({ content: 'Your message has been sent.', ephemeral: true });
+			}
 		});
 	},
 };
