@@ -70,7 +70,19 @@ module.exports = {
 					},
 				],
 			},
+			{
+				name: 'say',
+				description: 'Copy a message into the target channel',
+				options: [
+					{
+						name: 'targetchannel',
+						type: 'CHANNEL',
+						description: 'The channel to post the message in',
+						required: true,
+					},
+				],
+			},
 		];
-		await client.application?.commands.set(data);
+		await client.guilds.cache.get(guildID).commands.set(data).catch(console.error);
 	},
 };
