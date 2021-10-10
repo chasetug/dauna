@@ -14,8 +14,6 @@ module.exports = {
 	],
 	async execute(interaction) {
 		// Querying a specific package
-		interaction.deferReply();
-
 		function createLabelString(labels) {
 			if (!labels[0]) return 'None';
 			let labelString = labels.join('`, `');
@@ -39,9 +37,9 @@ module.exports = {
 		axios.get('https://gtfo.thunderstore.io/api/v1/package/')
 			.then(res => {
 				const packages = res.data;
-				const mod = interaction.options.getString('package');
+				const mod = interaction.options.getString('name');
 				const package = packages.find(p => p.name.toLowerCase() === mod.toLowerCase());
-				if (!package) return interaction.editReply({ content: 'Cannot find package. Please check package name.' });
+				if (!package) return interaction.reply({ content: 'Cannot find package. Please check package name.' });
 
 				const latestVersion = package.versions[0];
 				const totalDownloads = package.versions.reduce((sum, { downloads }) => sum + downloads, 0);
@@ -63,10 +61,10 @@ module.exports = {
 					.addField('Categories', createLabelString(package.categories))
 					.addField('Dependencies', createLabelString(package.versions[0].dependencies))
 					.setFooter(`${uuid}`);
-				interaction.editReply({ embeds: [modEmbed] });
+				interaction.reply({ embeds: [modEmbed] });
 			})
 			.catch(err => {
-				interaction.editReply({ content: 'Cannot find package. Please check package name.' });
+				interaction.reply({ content: 'Cannot find package. Please check package name.' });
 				console.error(err);
 			});
 	},

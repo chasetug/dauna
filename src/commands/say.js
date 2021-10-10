@@ -19,7 +19,7 @@ module.exports = {
 
 			collectedMessage.delete();
 
-			if (collectedAttachment) {
+			if (collectedAttachment && collected.first()) {
 				targetChannel.send({ content: `${collected.first()}`, attachments: [collectedAttachment] });
 				interaction.editReply({ content: 'Your message has been sent.', ephemeral: true });
 			}

@@ -11,8 +11,8 @@ module.exports = {
 		await guild.members.fetch();
 		console.log('Fetched member cache!');
 
-		client.user.setActivity(statusGame, { type: 'PLAYING' });
-		console.log(`Activity set to ${statusGame}`);
+		// client.user.setActivity(statusGame);
+		// console.log(`Activity set to ${statusGame}`);
 
 		// Register slash commands
 		const data = [
@@ -43,7 +43,7 @@ module.exports = {
 				description: 'Finds a package on the thunderstore',
 				options: [
 					{
-						name: 'package',
+						name: 'name',
 						type: 'STRING',
 						description: 'The package to query',
 						required: true,
@@ -82,6 +82,97 @@ module.exports = {
 					},
 				],
 			},
+			{
+				name: 'status',
+				description: 'Sets the bot user\'s status',
+				options: [
+					{
+						name: 'name',
+						type: 'STRING',
+						description: 'The name of the status',
+						required: true,
+					},
+					{
+						name: 'type',
+						type: 'STRING',
+						description: 'The type of status',
+						required: false,
+						choices: [
+							{
+								name: 'playing',
+								value: 'PLAYING',
+							},
+							{
+								name: 'watching',
+								value: 'WATCHING',
+							},
+							{
+								name: 'competing',
+								value: 'COMPETING',
+							},
+							{
+								name: 'streaming',
+								value: 'STREAMING',
+							},
+							{
+								name: 'listening',
+								value: 'LISTENING',
+							},
+						],
+					},
+					{
+						name: 'url',
+						type: 'STRING',
+						description: 'The url of the status (if WATCHING or STREAMING)',
+						required: false,
+					},
+				],
+			},
+			{
+				name: 'addmember',
+				description: 'Adds a guild member to a thread',
+				options: [
+					{
+						name: 'user',
+						type: 'USER',
+						description: 'The user to add',
+						required: true,
+					},
+					{
+						name: 'thread',
+						type: 'CHANNEL',
+						description: 'The thread to add the member to',
+						required: true,
+					},
+				],
+			},
+			{
+				name: 'removemember',
+				description: 'Removes a guild member from a thread',
+				options: [
+					{
+						name: 'user',
+						type: 'USER',
+						description: 'The user to remove',
+						required: true,
+					},
+					{
+						name: 'thread',
+						type: 'CHANNEL',
+						description: 'The thread to remove the member from',
+						required: true,
+					},
+				],
+			},
+			{
+				name: 'rolemenu',
+				description: 'Creates a role menu',
+			},
+			{
+				name: 'raid',
+				description: 'Disables messages for @ everyone',
+			},
+
 		];
 		await client.guilds.cache.get(guildID).commands.set(data).catch(console.error);
 	},

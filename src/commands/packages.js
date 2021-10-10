@@ -5,16 +5,20 @@ module.exports = {
 	name: 'packages',
 	description: 'Sends a list of packages from the Thunderstore.',
 	async execute(interaction) {
-		// Package list command
-		interaction.deferReply();
 		// Query thunderstore api for list of packages
 		axios.get('https://gtfo.thunderstore.io/api/v1/package/')
 			.then(res => {
 				let mods = '';
+				let mods2 = '';
 				// Add each package to the list
 				for (let i = 0; i < res.data.length; i++) {
 					if (!res.data[i].is_deprecated) {
-						mods += (`\`${res.data[i].name}\` `);
+						if (mods.length < 1000) {
+							mods += (`\`${res.data[i].name}\` `);
+						}
+						else {
+							mods2 += (`\`${res.data[i].name}\` `);
+						}
 					}
 				}
 				// Create the pretty embed
@@ -24,8 +28,9 @@ module.exports = {
 					.setURL('https://gtfo.thunderstore.io/')
 					.setThumbnail('https://i.imgur.com/dfowE52.png')
 					.addField('All Mods', mods)
+					.addField('​', mods2)
 					.setTimestamp();
-				interaction.editReply({ embeds: [modEmbed] });
+				interaction.reply({ embeds: [modEmbed] });
 			})
 			.catch(err => {
 				console.error(err);

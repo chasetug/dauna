@@ -77,7 +77,7 @@ module.exports = {
 						.setURL(`https://gtfomodding.dev/api/lobby?id=${lobbyID}`),
 				);
 			if (channel instanceof Discord.TextChannel) {
-				channel.send({ content: '<@&786076869203722250>', components: [row],	embed: embed })
+				channel.send({ content: '<@&786076869203722250>', components: [row],	embeds: [embed] })
 					.catch(console.error);
 			}
 
