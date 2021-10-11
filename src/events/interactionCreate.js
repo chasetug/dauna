@@ -32,10 +32,10 @@ module.exports = {
 		}
 		else if (interaction.isButton()) {
 			const memberRoles = interaction.member.roles;
-			if (interaction.id === 'test') {
+			if (interaction.custom_id === 'test') {
 				await interaction.reply({ content: `Hello ${interaction.user.username}`, ephemeral: true });
 			}
-			else if (interaction.id === 'news') {
+			else if (interaction.custom_id === 'news') {
 				if (!memberRoles.cache.find(r => r.id === '786078484681326653')) {
 					await memberRoles.add('786078484681326653');
 					await interaction.reply({ content: 'Gave you the role <@&786078484681326653>!', ephemeral:true });
@@ -45,7 +45,7 @@ module.exports = {
 					await interaction.reply({ content: 'Removed the role <@&786078484681326653>!', ephemeral:true });
 				}
 			}
-			else if (interaction.id === 'lfg') {
+			else if (interaction.custom_id === 'lfg') {
 				if (!memberRoles.cache.find(r => r.id === '786076869203722250')) {
 					await memberRoles.add('786076869203722250');
 					await interaction.reply({ content:'Gave you the role <@&786076869203722250>!', ephemeral:true });
@@ -55,7 +55,7 @@ module.exports = {
 					await interaction.reply({ content: 'Removed the role <@&786076869203722250>!', ephemeral:true });
 				}
 			}
-			else if (interaction.id === 'endskill') {
+			else if (interaction.custom_id === 'endskill') {
 				if (memberRoles.cache.find(r => r.id === '838110953375531009')) return;
 				if (!memberRoles.cache.find(r => r.id === '833714075199602689')) {
 					await memberRoles.add('833714075199602689');
@@ -65,6 +65,18 @@ module.exports = {
 					await memberRoles.remove('833714075199602689');
 					await interaction.reply({ content: 'Removed the role <@&833714075199602689>!', ephemeral:true });
 				}
+			}
+			else if (interaction.custom_id.startsWith('ticket')) {
+				interaction.reply({ content: 'Creating your ticket...', ephemeral: true });
+				const channel = interaction.guild.channels.fetch(784296066035613696);
+				const thread = await channel.threads.create({
+					name: `ticket-${interaction.user.username}`,
+					autoArchiveDuration: 'MAX',
+					type: 'GUILD_PRIVATE_THREAD',
+					reason: 'User opened a ticket.',
+				});
+				await thread.members.add(interaction.user.id);
+				await thread.send({ content: '<@782438962248548352>' });
 			}
 		}
 	},
