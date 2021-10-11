@@ -66,6 +66,7 @@ module.exports = {
 					await interaction.reply({ content: 'Removed the role <@&833714075199602689>!', ephemeral:true });
 				}
 			}
+			/*
 			else if (interaction.custom_id.startsWith('ticket')) {
 				interaction.reply({ content: 'Creating your ticket...', ephemeral: true });
 				const channel = interaction.guild.channels.fetch(784296066035613696);
@@ -78,6 +79,7 @@ module.exports = {
 				await thread.members.add(interaction.user.id);
 				await thread.send({ content: '<@782438962248548352>' });
 			}
+	     	*/
 		}
 	},
 };
