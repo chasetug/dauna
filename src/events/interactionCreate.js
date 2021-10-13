@@ -32,10 +32,10 @@ module.exports = {
 		}
 		else if (interaction.isButton()) {
 			const memberRoles = interaction.member.roles;
-			if (interaction.custom_id === 'test') {
+			if (interaction.customId === 'test') {
 				await interaction.reply({ content: `Hello ${interaction.user.username}`, ephemeral: true });
 			}
-			else if (interaction.custom_id === 'news') {
+			else if (interaction.customId === 'news') {
 				if (!memberRoles.cache.find(r => r.id === '786078484681326653')) {
 					await memberRoles.add('786078484681326653');
 					await interaction.reply({ content: 'Gave you the role <@&786078484681326653>!', ephemeral:true });
@@ -45,7 +45,7 @@ module.exports = {
 					await interaction.reply({ content: 'Removed the role <@&786078484681326653>!', ephemeral:true });
 				}
 			}
-			else if (interaction.custom_id === 'lfg') {
+			else if (interaction.customId === 'lfg') {
 				if (!memberRoles.cache.find(r => r.id === '786076869203722250')) {
 					await memberRoles.add('786076869203722250');
 					await interaction.reply({ content:'Gave you the role <@&786076869203722250>!', ephemeral:true });
@@ -55,7 +55,7 @@ module.exports = {
 					await interaction.reply({ content: 'Removed the role <@&786076869203722250>!', ephemeral:true });
 				}
 			}
-			else if (interaction.custom_id === 'endskill') {
+			else if (interaction.customId === 'endskill') {
 				if (memberRoles.cache.find(r => r.id === '838110953375531009')) return;
 				if (!memberRoles.cache.find(r => r.id === '833714075199602689')) {
 					await memberRoles.add('833714075199602689');
