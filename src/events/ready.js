@@ -1,5 +1,3 @@
-const { statusGame } = require('../config.json');
-
 module.exports = {
 	name: 'ready',
 	once: true,
@@ -10,9 +8,6 @@ module.exports = {
 		const guild = client.guilds.cache.get(guildID);
 		await guild.members.fetch();
 		console.log('Fetched member cache!');
-
-		// client.user.setActivity(statusGame);
-		// console.log(`Activity set to ${statusGame}`);
 
 		// Register slash commands
 		const data = [
