@@ -4,7 +4,8 @@ module.exports = {
 	name: 'guildMemberRemove',
 	execute(member, client) {
 		const welcomeChannel = client.channels.cache.get('782470041382944818');
-		welcomeChannel.send(`<:hmmm:820908652650954793> **${member.user.username}** has left the server.`);
+		welcomeChannel.send(`<:hmmm:820908652650954793> **${member.user.username}** has left the server.`)
+			.then(m => m.react(m.guild.emojis.cache.get('794561655353770004')));
 
 		// Member leave bot logs
 		const embed = new MessageEmbed()
