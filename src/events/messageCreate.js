@@ -22,5 +22,8 @@ module.exports = {
 				})
 				.catch(console.error);
 		}
+		else if(message.mentions.has(client.user.id)) {
+			message.channel.send('Ping chilling');
+		}
 	},
 };
