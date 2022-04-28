@@ -167,7 +167,18 @@ module.exports = {
 				name: 'raid',
 				description: 'Disables messages for @ everyone',
 			},
-
+			{
+				name: 'search',
+				description: 'Searches the wiki for a given query',
+				options: [
+					{
+						name: 'query',
+						type: 'STRING',
+						description: 'The query to search for',
+						required: true,
+					},
+				],
+			},
 		];
 		await client.guilds.cache.get(guildID).commands.set(data).catch(console.error);
 	},
