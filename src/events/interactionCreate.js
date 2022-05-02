@@ -27,7 +27,37 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error);
-				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+				await interaction.reply({ content: `There was an error while executing this command! ${error}`, ephemeral: true });
+			}
+		}
+		else if (interaction.isAutocomplete()) {
+			console.log(interaction);
+			if(!client.commands.has(interaction.commandName)) return interaction.reply({ content: 'This command does not exist.', ephemeral: true });
+
+			const command = client.commands.get(interaction.commandName);
+
+			let { requiredRoles = [] } = command;
+
+			if (typeof requiredRoles === 'string') {
+				requiredRoles = [requiredRoles];
+			}
+
+			for (const requiredRole of requiredRoles) {
+				const role = interaction.guild.roles.cache.find(r => r.id === requiredRole);
+				if(!role) return console.error(`Role ${role} does not exist`);
+
+				if (!interaction.member.roles.cache.has(role.id)) {
+					interaction.reply({ content: `You must have the \`${role.name}\` role to use this command.`, ephemeral: true });
+					return;
+				}
+			}
+
+			try {
+				await command.executeAutocomplete(interaction);
+			}
+			catch (error) {
+				console.error(error);
+				await interaction.reply({ content: `There was an error while executing this command! ${error}`, ephemeral: true });
 			}
 		}
 		else if (interaction.isButton()) {
@@ -67,7 +97,7 @@ module.exports = {
 				}
 			}
 			/*
-			else if (interaction.custom_id.startsWith('ticket')) {
+			else if (interaction.customId.startsWith('ticket')) {
 				interaction.reply({ content: 'Creating your ticket...', ephemeral: true });
 				const channel = interaction.guild.channels.fetch(784296066035613696);
 				const thread = await channel.threads.create({

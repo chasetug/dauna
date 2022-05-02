@@ -47,6 +47,5 @@ catch (error) {
 	console.error(error);
 }
 
-
 // Login to the api and start the bot
 client.login(process.env.TOKEN);

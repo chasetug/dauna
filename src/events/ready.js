@@ -176,6 +176,7 @@ module.exports = {
 						type: 'STRING',
 						description: 'The query to search for',
 						required: true,
+						autocomplete: true,
 					},
 				],
 			},
